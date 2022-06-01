@@ -38,7 +38,7 @@ namespace Biorhythms
         {
             List<Inf_columns> biorhythms = new List<Inf_columns>();
             int arbitrarys = 0;
-            DateTime birthDate = DateTime.Now;
+            DateTime birthdayDate = DateTime.Now;
 
             const int phys = 23;
             const int emot = 28;
@@ -46,7 +46,7 @@ namespace Biorhythms
 
             try
             {
-                birthDate = Convert.ToDateTime(Birthdaydate.Text);
+                birthdayDate = Convert.ToDateTime(Birthdaydate.Text);
             }
             catch
             {
@@ -75,22 +75,65 @@ namespace Biorhythms
                     MessageBox.Show("Произошла ошибка при получении данных отчета");
                 }
             }
-            DateTime dateCountDown;
+
+            DateTime datePrognoz= Convert.ToDateTime(Date1.Text); ;
             for (int i = 0; i < arbitrarys; i++)
             {
-                dateCountDown = Convert.ToDateTime(Date1.Text);
+                datePrognoz = Convert.ToDateTime(Date1.Text);
                 var bior = new Inf_columns()
                 {
-                    Date = dateCountDown.AddDays(i).ToShortDateString(),
-                    Emotional = Math.Round((Math.Sin(2 * Math.PI * ((dateCountDown - birthDate).Days + i) / emot)) * 100, 2),
-                    Intellectual = Math.Round((Math.Sin(2 * Math.PI * ((dateCountDown - birthDate).Days + i) / intel)) * 100, 2),
-                    Physical = Math.Round((Math.Sin(2 * Math.PI * ((dateCountDown - birthDate).Days + i) / phys)) * 100, 2),
+                    Date = datePrognoz.AddDays(i).ToShortDateString(),
+                    Emotional = Math.Round((Math.Sin(2 * Math.PI * ((datePrognoz - birthdayDate).Days + i) / emot)) * 100, 2),
+                    Intellectual = Math.Round((Math.Sin(2 * Math.PI * ((datePrognoz - birthdayDate).Days + i) / intel)) * 100, 2),
+                    Physical = Math.Round((Math.Sin(2 * Math.PI * ((datePrognoz - birthdayDate).Days + i) / phys)) * 100, 2),
                 };
                 bior.Total = Math.Round(bior.Emotional + bior.Intellectual + bior.Physical, 2);
 
                 biorhythms.Add(bior);
             }
             Dates.ItemsSource = biorhythms;
+
+            double maxEm = double.MinValue;
+            double maxInt = double.MinValue;
+            double maxPhys = double.MinValue;
+            double maxSum = double.MinValue;
+            string maxEmDate = String.Empty;
+            string maxIntDate = String.Empty;
+            string maxPhysDate = String.Empty;
+            string maxSumDate = String.Empty;
+
+            foreach (Inf_columns bior in biorhythms)
+            {
+                if (bior.Physical > maxPhys)
+                {
+                    maxPhys = bior.Physical;
+                    maxPhysDate = bior.Date;
+                }
+                if (bior.Emotional > maxEm)
+                {
+                    maxEm = bior.Emotional;
+                    maxEmDate = bior.Date;
+                }
+                if (bior.Intellectual > maxInt)
+                {
+                    maxInt = bior.Intellectual;
+                    maxIntDate = bior.Date;
+                }
+                if (bior.Total > maxSum)
+                {
+                    maxSum = bior.Total;
+                    maxSumDate = bior.Date;
+                }
+            }
+
+
+            list.Items.Clear();
+            list.Items.Add($"Дата рождения - {birthdayDate.ToShortDateString()}");
+            list.Items.Add($"Длительность прогноза - {arbitrarys}");
+            list.Items.Add($"Период с - {datePrognoz.ToShortDateString()} - {datePrognoz.AddDays(arbitrarys).ToShortDateString()}");
+            list.Items.Add($"Эмоциональный максимум - {maxEm}");
+            list.Items.Add($"Интеллектуальный максимум - {maxInt}");
+            list.Items.Add($"Физический максимум - {maxPhys}");
         }
     }
 }
