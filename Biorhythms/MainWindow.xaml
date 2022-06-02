@@ -5,18 +5,18 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Biorhythms"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" MinHeight="500" Height="500" MinWidth="1000" Width="1000">
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="190px"></RowDefinition>
+            <Grid.RowDefinitions>
+            <RowDefinition Height="200px"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="1*"></RowDefinition>
-        </Grid.RowDefinitions>
+            </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1.7*"></ColumnDefinition>
-                <ColumnDefinition Width="2.6*"></ColumnDefinition>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
                 <ColumnDefinition Width="1*"></ColumnDefinition>
+                <ColumnDefinition Width="0.5*"></ColumnDefinition>
             </Grid.ColumnDefinitions>
 
             <Grid Grid.Row="0" Grid.Column="0">
@@ -37,10 +37,10 @@
                     </Grid.RowDefinitions>
 
                     <Label VerticalAlignment="Center" Grid.Row="0">Дата рождения:</Label>
-                    <DatePicker x:Name="Birthdaydate" Grid.Row="0" SelectedDate="10/27/2002" FirstDayOfWeek="Monday" Width="120px" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <DatePicker x:Name="Birthdaydate" Grid.Row="0" SelectedDateFormat="Long" SelectedDate="10/27/2002" FirstDayOfWeek="Monday" Width="120px" HorizontalAlignment="Right" VerticalAlignment="Center"/>
 
                     <Label VerticalAlignment="Center" Grid.Row="1">Дата отсчета:</Label>
-                    <DatePicker x:Name="Date1" Grid.Row="1" FirstDayOfWeek="Monday" Width="120px" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                    <DatePicker x:Name="Date1" Grid.Row="1" SelectedDateFormat="Long" SelectedDate="06/01/2022" DisplayDateStart="01/01/1910" FirstDayOfWeek="Monday" Width="120px" HorizontalAlignment="Right" VerticalAlignment="Center"/>
 
                     <Label Grid.Row="2" VerticalAlignment="Center">Длительность прогноза:</Label>
                     <ComboBox Name="Prognoz" Width="50px" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right">
@@ -51,11 +51,11 @@
                         <ComboBoxItem>50</ComboBoxItem>
                     </ComboBox>
 
-                    <CheckBox VerticalAlignment="Center" Grid.Row="3">
+                    <CheckBox VerticalAlignment="Center" Grid.Row="3" Checked="CheckBox_Checked" Unchecked="CheckBox_Unchecked">
                         <TextBlock>Произвольная длительность прогноза</TextBlock>
                     </CheckBox>
+                    <TextBox x:Name="Arbitraryvalue" IsEnabled="False" VerticalAlignment="Center" HorizontalAlignment="Right" Width="40px" Text="100" Grid.Row="5"/>
 
-             
                 </Grid>
 
             </GroupBox>
@@ -71,6 +71,21 @@
                     </DataGrid.Columns>
                 </DataGrid>
             </GroupBox>
+
+            <GroupBox Grid.Column="2" Header="Статистика" Padding="5" Margin="5">
+                <ScrollViewer>
+                    <ListBox Name="list"/>
+                </ScrollViewer>
+            </GroupBox>
+            
         </Grid>
+        
+        <WrapPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Center">
+            <Button Content="Посторить график" VerticalAlignment="Center" Height="30px" Margin="10 0" Click="Button_Click"/>
+        </WrapPanel>
+        
+        <GroupBox Grid.Row="2" Header="График" Padding="5" Margin="5">
+
+        </GroupBox>
     </Grid>
 </Window>
