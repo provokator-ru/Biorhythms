@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Biorhythms"
+        xmlns:local="clr-namespace:Biorhythms" xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
         mc:Ignorable="d"
         Title="MainWindow" MinHeight="500" Height="500" MinWidth="1000" Width="1000">
     <Grid>
@@ -85,7 +85,7 @@
         </WrapPanel>
         
         <GroupBox Grid.Row="2" Header="График" Padding="5" Margin="5">
-
+            <lvc:CartesianChart Name="graph"  LegendLocation="Bottom"/>
         </GroupBox>
     </Grid>
 </Window>

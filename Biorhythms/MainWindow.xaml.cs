@@ -1,4 +1,6 @@
-﻿using System;
+﻿using LiveCharts;
+using LiveCharts.Wpf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +22,8 @@ namespace Biorhythms
     /// </summary>
     public partial class MainWindow : Window
     {
+        List<string> Labels = new List<string>();
+
         public MainWindow()
         {
             InitializeComponent();
@@ -130,10 +134,61 @@ namespace Biorhythms
             list.Items.Clear();
             list.Items.Add($"Дата рождения - {birthdayDate.ToShortDateString()}");
             list.Items.Add($"Длительность прогноза - {arbitrarys}");
-            list.Items.Add($"Период с - {datePrognoz.ToShortDateString()} - {datePrognoz.AddDays(arbitrarys).ToShortDateString()}");
+            list.Items.Add($"Период с {datePrognoz.ToShortDateString()} по {datePrognoz.AddDays(arbitrarys).ToShortDateString()}");
             list.Items.Add($"Эмоциональный максимум - {maxEm}");
             list.Items.Add($"Интеллектуальный максимум - {maxInt}");
             list.Items.Add($"Физический максимум - {maxPhys}");
+
+            ChartValues<double> PhysicalValues = new ChartValues<double>();
+            ChartValues<double> EmotionalValues = new ChartValues<double>();
+            ChartValues<double> IntellectualValues = new ChartValues<double>();
+            SeriesCollection series = new SeriesCollection();
+
+            foreach (Inf_columns bior in biorhythms)
+            {
+                PhysicalValues.Add(bior.Physical);
+                EmotionalValues.Add(bior.Emotional);
+                IntellectualValues.Add(bior.Intellectual);
+                Labels.Add(bior.Date.ToString());
+            }
+
+            series.Add(new LineSeries
+            {
+                Title = "Физические ритмы",
+                Values = PhysicalValues,
+            });
+            series.Add(new LineSeries
+            {
+                Title = "Эмоциональные ритмы",
+                Values = EmotionalValues
+            });
+            series.Add(new LineSeries
+            {
+                Title = "Интеллектуальные ритмы",
+                Values = IntellectualValues
+            });
+
+            graph.AxisY = new AxesCollection()
+            {
+                new Axis()
+                {
+                    Title = "Значения",
+                    MinValue = -100,
+                    MaxValue = 100,
+                }
+            };
+            graph.Series = series;
+            graph.Update();
+
+            graph.AxisX = new AxesCollection()
+            {
+                new Axis()
+                {
+                    Title = "Дата",
+                    MinValue = 0,
+                    Labels = Labels,
+                }
+            };
         }
     }
 }
